@@ -423,11 +423,19 @@ let locations = [|
     { City = "Zürich"; Mean = 9.3 };
 |]
 
-let rand = new Random()
+let rng = new Random()
+
+// Adapted from https://stackoverflow.com/a/218600/67392
+let gausianRand mean stdDev =
+    let u1 = 1.0 - rng.NextDouble ()
+    let u2 = 1.0 - rng.NextDouble ()
+    // Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
+    let randNormal = sqrt (-2.0 * log u1) * sin (2.0 * Math.PI * u2)
+    mean + stdDev * randNormal
 
 let getRandomLocation () =
     let c = Array.length locations
-    let r = rand.Next(c)
+    let r = rng.Next(c)
     locations[r]
 
 let buildFile filename count =
@@ -435,7 +443,8 @@ let buildFile filename count =
     use wrtr = new StreamWriter(strm)
     for idx = 1 to count do
         let c = getRandomLocation ()
-        wrtr.WriteLine($"{c.City};{c.Mean:``0.0``}")
+        let reading = gausianRand (c.Mean) 10.0
+        wrtr.WriteLine($"{c.City};{reading:``0.0``}")
     ()
 
 [<EntryPoint>]
