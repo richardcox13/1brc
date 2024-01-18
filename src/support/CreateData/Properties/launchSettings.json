@@ -2,7 +2,7 @@
   "profiles": {
     "CreateData": {
       "commandName": "Project",
-      "commandLineArgs": "1000",
+      "commandLineArgs": "..\\testdata.csv  1000",
       "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\support\\CreateData"
     }
   }
