@@ -6,11 +6,41 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94409715-BBA1-490F-ABF3-8174322FA89E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		global.json = global.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "support", "support", "{A4E989F0-47C9-4138-9D4B-038D199CC1C7}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CreateData", "support\CreateData\CreateData.fsproj", "{7B7380F8-3391-4DB7-8E64-D748E9150114}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Debug|x64.Build.0 = Debug|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Release|x64.ActiveCfg = Release|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Release|x64.Build.0 = Release|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B7380F8-3391-4DB7-8E64-D748E9150114}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B7380F8-3391-4DB7-8E64-D748E9150114} = {A4E989F0-47C9-4138-9D4B-038D199CC1C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2B3BEC1-A7FB-4374-9F0B-B54DED22B13F}
