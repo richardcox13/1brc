@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Simple": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\support\\One.dat",
+      "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\1brc\\Simple"
+    }
+  }
+}
