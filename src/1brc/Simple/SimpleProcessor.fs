@@ -12,11 +12,14 @@ type InputRecord =
     }
 
 
+[<Struct>]
 type Accumulator =
     {
         City: string
         Count: int
         Sum: float
+        Min: float
+        Max: float
     }
 
 let parseOneRecord (record: string) =
@@ -36,8 +39,13 @@ let run filename =
     let data = new Dictionary<string, Accumulator>()
     for r in records do
         data[r.City] <- match data.TryGetValue(r.City) with
-                        | (false, _) -> { City = r.City; Count = 1; Sum = r.Value }
-                        | (true, prev) -> { prev with Count = prev.Count+1; Sum = prev.Sum + r.Value }
+                        | (false, _) -> { City = r.City; Count = 1; Sum = r.Value; Min = r.Value; Max = r.Value }
+                        | (true, prev)
+                            -> { City = prev.City;
+                                 Count = prev.Count+1;
+                                 Sum = prev.Sum + r.Value;
+                                 Min = min r.Value prev.Min;
+                                 Max = max r.Value prev.Max }
 
         count <- count+1
 
