@@ -49,4 +49,10 @@ let run filename =
 
         count <- count+1
 
+    let ks = data.Keys |> Seq.sort
+    Console.Write("{")
+    for k in ks do
+        let d = data[k]
+        Console.Write($"{d.City}={d.Min:F1}/{d.Sum/(float d.Count):F1}/{d.Max:F1}, ")
+    Console.WriteLine("}");
     count
