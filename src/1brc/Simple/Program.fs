@@ -4,9 +4,9 @@ open OmeBillion.Simple
 
 [<EntryPoint>]
 let main(args) =
-    printfn $"iBRC \"Simple\" solution"
-    printfn $"Working folder: {Environment.CurrentDirectory}"
-    printfn ""
+    eprintfn $"iBRC \"Simple\" solution"
+    eprintfn $"Working folder: {Environment.CurrentDirectory}"
+    eprintfn ""
 
     if args.Length <> 1 then
         eprintfn "Invalid command line"
@@ -15,12 +15,12 @@ let main(args) =
         1
     else
         let filename = args[0]
-        printfn $"Reading from \"{filename}\""
+        eprintfn $"Reading from \"{filename}\""
 
         let sw = Stopwatch.StartNew()
         let rows = SimpleProcessor.run filename
         sw.Stop()
-        printfn $"Complete with {rows} records in {sw.Elapsed:``h':'mm':'ss'.'fff``}."
-        printfn $"GC counts 0: {GC.CollectionCount(0)}; 1: {GC.CollectionCount(1)}; 2: {GC.CollectionCount(2)}; "
+        eprintfn $"Complete with {rows} records in {sw.Elapsed:``h':'mm':'ss'.'fff``}."
+        eprintfn $"GC counts 0: {GC.CollectionCount(0)}; 1: {GC.CollectionCount(1)}; 2: {GC.CollectionCount(2)}; "
 
         0
