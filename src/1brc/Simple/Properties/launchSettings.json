@@ -4,6 +4,11 @@
       "commandName": "Project",
       "commandLineArgs": "..\\..\\support\\One.dat",
       "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\1brc\\Simple"
+    },
+    "Simple (Bigger Data)": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\support\\Three.dat",
+      "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\1brc\\Simple"
     }
   }
 }

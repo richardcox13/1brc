@@ -20,7 +20,7 @@ let main(args) =
         let sw = Stopwatch.StartNew()
         let rows = SimpleProcessor.run filename
         sw.Stop()
-        eprintfn $"Complete with {rows} records in {sw.Elapsed:``h':'mm':'ss'.'fff``}."
+        eprintfn $"Complete with {rows:``0,0``} records in {sw.Elapsed:``h':'mm':'ss'.'fff``}."
         eprintfn $"GC counts 0: {GC.CollectionCount(0)}; 1: {GC.CollectionCount(1)}; 2: {GC.CollectionCount(2)}; "
 
         0
