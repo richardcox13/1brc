@@ -1,13 +1,9 @@
 ﻿open System
+open Utilities
 
 type Runners =
     | Simple = 1
     | FirstThreading = 2
-
-let write (msg: string) = Console.Write(msg)
-let writeLine (msg: string) = Console.WriteLine(msg)
-let ewrite (msg: string) = Console.Error.Write(msg)
-let ewriteLine (msg: string) = Console.Error.WriteLine(msg)
 
 let getRunnerFromName (name: string) =
     match (name.ToLower()) with
@@ -18,10 +14,10 @@ let getRunnerFromName (name: string) =
 let executeRunner runner filename =
     match runner with
     | Runners.Simple
-        -> writeLine "Running Simple {filename}"
+        -> writeLine $"Running Simple {filename}"
            0
     | Runners.FirstThreading
-        -> writeLine "Running FirstThreading {filename}"
+        -> writeLine $"Running FirstThreading {filename}"
            0
     | _ -> failwith "Unexpect runner id"
 

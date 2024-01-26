@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "BillionRows": {
+      "commandName": "Project",
+      "commandLineArgs": "Simple ..\\support\\One.dat",
+      "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\BillionRows"
+    }
+  }
+}
