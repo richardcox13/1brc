@@ -1,8 +1,9 @@
-﻿module OmeBillion.Simple.SimpleProcessor
+﻿module Simple
 
 open System
 open System.Collections.Generic
 open System.IO
+open Utilities
 
 [<Struct>]
 type InputRecord =
