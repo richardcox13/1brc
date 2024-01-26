@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1brc", "1brc", "{E07C022E-1
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Simple", "1brc\Simple\Simple.fsproj", "{79D010F5-BD1D-410F-A2A1-0D288E43A505}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BillionRows", "BillionRows\BillionRows.fsproj", "{457F5094-0DD5-44BE-9EBA-C771C077B6B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,18 @@ Global
 		{79D010F5-BD1D-410F-A2A1-0D288E43A505}.Release|x64.Build.0 = Release|Any CPU
 		{79D010F5-BD1D-410F-A2A1-0D288E43A505}.Release|x86.ActiveCfg = Release|Any CPU
 		{79D010F5-BD1D-410F-A2A1-0D288E43A505}.Release|x86.Build.0 = Release|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Debug|x64.Build.0 = Debug|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Debug|x86.Build.0 = Debug|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Release|x64.ActiveCfg = Release|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Release|x64.Build.0 = Release|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Release|x86.ActiveCfg = Release|Any CPU
+		{457F5094-0DD5-44BE-9EBA-C771C077B6B1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
