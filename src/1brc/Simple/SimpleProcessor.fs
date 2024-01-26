@@ -23,10 +23,16 @@ type Accumulator =
     }
 
 let parseOneRecord (record: string) =
-    let fs = record.Split(';')
-    assert (fs.Length = 2)
-    let city = fs[0]
-    let value = Double.Parse(fs[1])
+    let semiIdx = record.IndexOf(';')
+    assert (semiIdx <> -1)
+    let city = record[0..(semiIdx-1)]
+    let valSpan = record.AsSpan(semiIdx+1)
+    let value = Double.Parse(valSpan)
+    
+    //let fs = record.Split(';')
+    //assert (fs.Length = 2)
+    //let city = fs[0]
+    //let value = Double.Parse(fs[1])
     { City = city; Value = value}
 
 let run filename =
