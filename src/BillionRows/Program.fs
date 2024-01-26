@@ -1,4 +1,5 @@
 ﻿open System
+open System.Diagnostics
 open Utilities
 
 type Runners =
@@ -12,20 +13,26 @@ let getRunnerFromName (name: string) =
     | _ -> None
 
 let executeRunner runner filename =
+    let sw = Stopwatch.StartNew()
+
     match runner with
     | Runners.Simple
-        -> writeLine $"Running Simple {filename}"
-           0
+        -> ewriteLine $"Running Simple {filename}"
+           let rows = Simple.run filename
+           ewrite $"Simple completed across {rows:``0,0``} rows "
     | Runners.FirstThreading
         -> writeLine $"Running FirstThreading {filename}"
-           0
     | _ -> failwith "Unexpect runner id"
+
+    sw.Stop()
+    ewriteLine $"in {sw.Elapsed:``h':'mm':'ss'.'fff``}."
+    eprintfn $"GC counts 0: {GC.CollectionCount(0)}; 1: {GC.CollectionCount(1)}; 2: {GC.CollectionCount(2)}; "
+
 
 let usage () =
     ewriteLine "Usage:"
     ewriteLine "  <runner> <input-file>"
     ewriteLine "<runner> is one of \"Simple\", \"FirstThreading\""
-
 
 [<EntryPoint>]
 let main(args) =
@@ -46,3 +53,4 @@ let main(args) =
             let filename = args[1]
 
             executeRunner runner filename
+            0
