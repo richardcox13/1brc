@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Include="Utilities.fs" />
+    <Compile Include="FirstThreading.fs" />
     <Compile Include="Simple.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

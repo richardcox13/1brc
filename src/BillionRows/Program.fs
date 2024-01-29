@@ -22,6 +22,8 @@ let executeRunner runner filename =
            ewrite $"Simple completed across {rows:``0,0``} rows "
     | Runners.FirstThreading
         -> writeLine $"Running FirstThreading {filename}"
+           let rows = FirstThreading.run filename
+           ewrite $"FirstThreading completed across {rows:``0,0``} rows "
     | _ -> failwith "Unexpect runner id"
 
     sw.Stop()
