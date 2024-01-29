@@ -4,6 +4,7 @@ open System
 open System.Collections.Generic
 open System.Diagnostics
 open System.IO
+open System.Threading.Tasks
 open Utilities
 
 [<Struct>]
@@ -21,7 +22,7 @@ type Accumulator = Dictionary<string, CityData>
 let processChunk (chunk: string[]) idx =
     let acc = new Accumulator()
 
-    writeLine $"Processing chunk #{idx} of {chunk.Length} rows"
+    ewriteLine $"Processing chunk #{idx} of {chunk.Length} rows"
     let sw = Stopwatch.StartNew()
     for s in chunk do
         let semiIdx = s.IndexOf(';')
@@ -39,18 +40,48 @@ let processChunk (chunk: string[]) idx =
                              Min = min value prev.Min;
                              Max = max value prev.Max }
     sw.Stop()
-    writeLine $"Processed chunk #{idx} into {acc.Count} cities in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
+    ewriteLine $"Processed chunk #{idx} into {acc.Count} cities in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
     acc
 
 let run filename =
     ewriteLine $"This is FirstThreading.Run \"{filename}\""
-    let input = File.ReadAllLines(filename)
-    let data = processChunk input 0
+    let mutable rowCount = 0
+
+    let sw = Stopwatch.StartNew()
+    let parseTasks
+        = File.ReadLines(filename)
+          // TODO: Adjust this chunk size
+          |> Seq.chunkBySize 10_000_000
+          |> Seq.mapi (fun idx chunk ->
+               rowCount <- rowCount + chunk.Length               
+               let t = task {
+                  // TODO seems I need to force something async...
+                  do! Task.Delay(1)
+                  let chunkDict = processChunk chunk idx
+                  return chunkDict
+               }
+               ewriteLine $"Created chunk task #{idx}"
+               t
+             )
+          |> Seq.toArray
+
+    let tt
+        = task {
+            // In F# no implicity conversion from Task<T> array to Task array.
+            let pt = parseTasks |> Array.map (fun t -> t :> Task)
+            return! Task.WhenAll(pt)
+          }
+
+    tt.Wait()
+    ewriteLine $"Processed chunks in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
+
+    // TEMP just read the first chunk's data
+    let data = parseTasks[0].Result
     let ks = data.Keys |> Seq.sort
     Console.Write("{")
     for k in ks do
         let d = data[k]
         Console.Write($"{d.City}={d.Min:F1}/{d.Sum/(float d.Count):F1}/{d.Max:F1}, ")
     Console.WriteLine("}");
-    input.Length
+    rowCount
 
