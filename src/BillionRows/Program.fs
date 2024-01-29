@@ -23,11 +23,6 @@ let executeRunner runner filename =
            ewrite $"Simple completed across {rows:``0,0``} rows "
     | Runners.FirstThreading
         -> writeLine $"Running FirstThreading {filename}"
-           // Fiddle factor when developing...
-           let p = Environment.ProcessorCount - 2
-           let b = ThreadPool.SetMinThreads(p*2, 2)
-           let b = ThreadPool.SetMaxThreads(p*4, 4)
-           assert b
            let rows = FirstThreading.run filename
            ewrite $"FirstThreading completed across {rows:``0,0``} rows "
     | _ -> failwith "Unexpect runner id"
