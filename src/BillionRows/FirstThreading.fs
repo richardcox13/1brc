@@ -51,17 +51,16 @@ let run filename =
     let parseTasks
         = File.ReadLines(filename)
           // TODO: Adjust this chunk size
-          |> Seq.chunkBySize 10_000_000
+          |> Seq.chunkBySize 2_700_000
           |> Seq.mapi (fun idx chunk ->
-               rowCount <- rowCount + chunk.Length               
-               let t = task {
-                  // TODO seems I need to force something async...
-                  do! Task.Delay(1)
-                  let chunkDict = processChunk chunk idx
-                  return chunkDict
-               }
+               rowCount <- rowCount + chunk.Length
+               let tt = Task.Factory.StartNew(
+                       (fun () -> processChunk chunk idx),
+                       TaskCreationOptions.LongRunning
+                    )
+
                ewriteLine $"Created chunk task #{idx}"
-               t
+               tt
              )
           |> Seq.toArray
 
