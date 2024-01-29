@@ -54,7 +54,7 @@ let run filename =
           |> Seq.chunkBySize 2_700_000
           |> Seq.mapi (fun idx chunk ->
                rowCount <- rowCount + chunk.Length
-               let tt = Task.Factory.StartNew(
+               let tt = new Task<Accumulator>(
                        (fun () -> processChunk chunk idx),
                        TaskCreationOptions.LongRunning
                     )
@@ -64,14 +64,13 @@ let run filename =
              )
           |> Seq.toArray
 
-    let tt
-        = task {
-            // In F# no implicity conversion from Task<T> array to Task array.
-            let pt = parseTasks |> Array.map (fun t -> t :> Task)
-            return! Task.WhenAll(pt)
-          }
+    let pt
+        = parseTasks
+          |> Array.map (fun t ->
+                                 t.Start()
+                                 t :> Task)
+    Task.WaitAll(pt)
 
-    tt.Wait()
     ewriteLine $"Processed chunks in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
 
     // TEMP just read the first chunk's data
