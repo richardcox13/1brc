@@ -43,6 +43,28 @@ let processChunk (chunk: string[]) idx =
     ewriteLine $"Processed chunk #{idx} into {acc.Count} cities in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
     acc
 
+let mergeAccumulators (target: Accumulator) (addition: Accumulator) =
+    for kv in addition do
+        let city = kv.Key
+        let value = kv.Value
+        target[city] <- match target.TryGetValue(city) with
+                        | (false, _) -> { City = city; Count = value.Count; Sum = value.Sum; Min = value.Min; Max = value.Max }
+                        | (true, prev)
+                            -> { City = city;
+                                 Count = prev.Count + value.Count;
+                                 Sum = prev.Sum + value.Sum;
+                                 Min = (min prev.Min value.Min);
+                                 Max = max prev.Max value.Max }
+    ()
+
+let showResults (acc: Accumulator) =
+    let ks = acc.Keys |> Seq.sort
+    Console.Write("{")
+    for k in ks do
+        let d = acc[k]
+        Console.Write($"{d.City}={d.Min:F1}/{d.Sum/(float d.Count):F1}/{d.Max:F1}, ")
+    Console.WriteLine("}");
+
 let run filename =
     ewriteLine $"This is FirstThreading.Run \"{filename}\""
     let mutable rowCount = 0
@@ -51,7 +73,7 @@ let run filename =
     let parseTasks
         = File.ReadLines(filename)
           // TODO: Adjust this chunk size
-          |> Seq.chunkBySize 2_700_000
+          |> Seq.chunkBySize 1000 //2_700_000
           |> Seq.mapi (fun idx chunk ->
                rowCount <- rowCount + chunk.Length
                let tt = new Task<Accumulator>(
@@ -73,13 +95,14 @@ let run filename =
 
     ewriteLine $"Processed chunks in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
 
-    // TEMP just read the first chunk's data
+    // TEMP just merging after all is done...
     let data = parseTasks[0].Result
-    let ks = data.Keys |> Seq.sort
-    Console.Write("{")
-    for k in ks do
-        let d = data[k]
-        Console.Write($"{d.City}={d.Min:F1}/{d.Sum/(float d.Count):F1}/{d.Max:F1}, ")
-    Console.WriteLine("}");
+    showResults data
+    writeLine "====="
+    if parseTasks.Length > 1 then
+        let d2 = parseTasks[1].Result
+        mergeAccumulators data d2
+    showResults data
+
     rowCount
 
