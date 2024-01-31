@@ -1,8 +1,17 @@
 {
   "profiles": {
-    "BillionRows": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "BillionRows: Simple": {
       "commandName": "Project",
       "commandLineArgs": "Simple ..\\support\\One.dat",
+      "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\BillionRows"
+    },
+    "BillionRows: FirstThreading": {
+      "commandName": "Project",
+      "commandLineArgs": "FirstThreading ..\\support\\One.dat",
       "workingDirectory": "E:\\Projects\\GitHub\\1brc\\src\\BillionRows"
     }
   }
