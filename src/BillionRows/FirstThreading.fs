@@ -70,13 +70,17 @@ let run filename =
     let mutable rowCount = 0
 
     let sw = Stopwatch.StartNew()
+    let eshowProgress (msg: string) =
+        ewriteLine $"{sw.Elapsed:``h':'mm':'ss'.'fff``}: {msg}"
+
+
     let parseTasks
         = File.ReadLines(filename)
           // TODO: Adjust this chunk size
-          |> Seq.chunkBySize 1000 //2_700_000
+          |> Seq.chunkBySize 2_700_000
           |> Seq.mapi (fun idx chunk ->
                rowCount <- rowCount + chunk.Length
-               let tt = new Task<Accumulator>(
+               let tt = Task.Factory.StartNew(
                        (fun () -> processChunk chunk idx),
                        TaskCreationOptions.LongRunning
                     )
@@ -86,14 +90,14 @@ let run filename =
              )
           |> Seq.toArray
 
+    eshowProgress "Built taks"
+
     let pt
         = parseTasks
-          |> Array.map (fun t ->
-                                 t.Start()
-                                 t :> Task)
+          |> Array.map (fun t -> t :> Task)
     Task.WaitAll(pt)
 
-    ewriteLine $"Processed chunks in {sw.Elapsed:``h':'mm':'ss'.'fff``}"
+    eshowProgress "Chunks processed"
 
     // TEMP just merging after all is done...
     let data = parseTasks[0].Result
