@@ -81,7 +81,7 @@ let run filename =
           |> Seq.mapi (fun idx chunk ->
                rowCount <- rowCount + chunk.Length
                let tt = Task.Factory.StartNew(
-                       (fun () -> processChunk chunk idx),
+                       (fun () -> struct (idx, processChunk chunk idx)),
                        TaskCreationOptions.LongRunning
                     )
 
@@ -100,11 +100,11 @@ let run filename =
     eshowProgress "Chunks processed"
 
     // TEMP just merging after all is done...
-    let data = parseTasks[0].Result
+    let struct (_, data) = parseTasks[0].Result
     showResults data
     writeLine "====="
     if parseTasks.Length > 1 then
-        let d2 = parseTasks[1].Result
+        let struct (_, d2) = parseTasks[1].Result
         mergeAccumulators data d2
     showResults data
 
