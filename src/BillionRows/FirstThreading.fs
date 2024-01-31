@@ -74,7 +74,7 @@ let run filename =
         ewriteLine $"{sw.Elapsed:``h':'mm':'ss'.'fff``}: {msg}"
 
 
-    let parseTasks
+    let mutable parseTasks
         = File.ReadLines(filename)
           // TODO: Adjust this chunk size
           |> Seq.chunkBySize 2_700_000
@@ -95,18 +95,20 @@ let run filename =
     let pt
         = parseTasks
           |> Array.map (fun t -> t :> Task)
-    Task.WaitAll(pt)
+    let doneTaskIdx = Task.WaitAny(pt)
+    let struct (chunkIdx, acc)  = parseTasks[doneTaskIdx].Result
+    eshowProgress $"Task #{doneTaskIdx} with chunk {chunkIdx} done"
+    parseTasks <- parseTasks |> Array.removeAt doneTaskIdx
+    
+    while parseTasks.Length > 0 do
+        let doneTaskIdx = Task.WaitAny(pt)
+        let struct (chunkIdx, nextAcc)  = parseTasks[doneTaskIdx].Result
+        eshowProgress $"Task #{doneTaskIdx} with chunk {chunkIdx} done"
+        mergeAccumulators acc nextAcc
+        parseTasks <- parseTasks |> Array.removeAt doneTaskIdx
 
-    eshowProgress "Chunks processed"
-
-    // TEMP just merging after all is done...
-    let struct (_, data) = parseTasks[0].Result
-    showResults data
-    writeLine "====="
-    if parseTasks.Length > 1 then
-        let struct (_, d2) = parseTasks[1].Result
-        mergeAccumulators data d2
-    showResults data
+    eshowProgress "Chunks processed, results merged"
+    showResults acc
 
     rowCount
 
